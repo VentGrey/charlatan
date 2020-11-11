@@ -1,0 +1,53 @@
+name: Rust
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: cargo build --verbose
+    - name: Run tests
+      run: cargo test --verbose
+      
+  style:
+    name: Style
+    runs-on: ${{ matrix.job.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        job: [ubuntu-latest, os: macos-latest, os: windows-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install `rust` toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ env.RUST_MIN_SRV }}
+        override: true
+        profile: minimal
+        components: rustfmt, clippy
+    - name: "`fmt` testing"
+      uses: actions-rs/cargo@v1
+      with:
+        command: fmt
+        args: --all -- --check
+    - name: "`clippy` testing"
+      if: success() || failure()
+      uses: actions-rs/cargo@v1
+      with:
+        command: clippy
+        args: -- -D warnings
