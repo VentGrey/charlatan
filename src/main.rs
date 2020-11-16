@@ -1,4 +1,4 @@
-use clap::{App, Arg, SubCommand};
+use clap::{App, Arg};
 
 fn main() {
     let matches = App::new("charlatan")
@@ -9,9 +9,7 @@ fn main() {
                 .arg(Arg::with_name("remove").help("uninstalls charlatan"))
                 .arg(Arg::with_name("uninstall").help("uninstalls charlatan")),
         )
-        .arg(
-                Arg::with_name("update").help("updates your currenr julia install")
-        )
+        .arg(Arg::with_name("update").help("updates your currenr julia install"))
         .version("0.1.0")
         .about("Unnoficial Julia toolchain installer")
         .long_about(
