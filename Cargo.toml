@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 scanrs = "0.2.1"
+colored = "2.0.0"
