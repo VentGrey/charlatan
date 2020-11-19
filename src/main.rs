@@ -11,13 +11,10 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() > 2 {
-        println!("Excess of arguments!");
+        println!("{}","Excess of arguments!".red());
         exit(1);
     } else if args.len() == 1 {
-        println!("Empty arguments list!");
-        exit(1);
-    } else if args.is_empty() {
-        println!("Empty argument list!");
+        println!("{}","Empty arguments list!".red());
         exit(1);
     } else {
         let option = &args[1];

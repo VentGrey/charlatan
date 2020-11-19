@@ -11,6 +11,7 @@ fn compatible() -> bool {
         );
         false
     } else if cfg!(target_os = "linux") {
+        println!("{}","Checking for wget...".blue());
         // Check if wget is installed on your system
         let is_wget = Command::new("which")
             .arg("wget")
@@ -18,10 +19,10 @@ fn compatible() -> bool {
             .expect("Could not run which");
 
         if is_wget.code() != Some(0) {
-            println!("Charlatan needs wget to be installed")
+            println!("Charlatan needs {} to be installed", "wget".yellow());
+            std::process::exit(1);
         }
 
-        println!("You seem to be running {}...", "algo");
         true
     } else {
         eprintln!("Could not determine compatibility with your OS. Sorry");
