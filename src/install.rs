@@ -1,4 +1,5 @@
 use std::process::Command;
+use std::process::exit;
 
 // External Crates
 use colored::*;
@@ -11,7 +12,7 @@ fn compatible() -> bool {
         );
         false
     } else if cfg!(target_os = "linux") {
-        println!("{}","Checking for wget...".blue());
+        println!("{}", "Checking for wget...".blue());
         // Check if wget is installed on your system
         let is_wget = Command::new("which")
             .arg("wget")
@@ -20,7 +21,7 @@ fn compatible() -> bool {
 
         if is_wget.code() != Some(0) {
             println!("Charlatan needs {} to be installed", "wget".yellow());
-            std::process::exit(1);
+            exit(1);
         }
 
         true
@@ -36,4 +37,9 @@ pub fn download() {
     println!("Determining system compatibility...");
 
     let is_compat = compatible();
+
+    if is_compat == false {
+        println!("Your system is {} compatible with charlatan", "NOT".red());
+        exit(1);
+    }
 }
