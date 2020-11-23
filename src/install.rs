@@ -1,5 +1,5 @@
-use std::process::Command;
 use std::process::exit;
+use std::process::Command;
 
 // External Crates
 use colored::*;
@@ -21,7 +21,7 @@ fn compatible() -> bool {
 
         if is_wget.code() != Some(0) {
             println!("Charlatan needs {} to be installed", "wget".yellow());
-            exit(1);
+            return false;
         }
 
         true
@@ -33,13 +33,15 @@ fn compatible() -> bool {
     compat
 }
 
-pub fn download() {
+pub fn install() {
     println!("Determining system compatibility...");
 
-    let is_compat = compatible();
-
-    if is_compat == false {
+    if !compatible() {
         println!("Your system is {} compatible with charlatan", "NOT".red());
         exit(1);
     }
+
+
+
+
 }

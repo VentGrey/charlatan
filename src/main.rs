@@ -19,7 +19,7 @@ fn main() {
     } else {
         let option = &args[1];
         match option.as_str() {
-            "install" => install::download(),
+            "install" => install::install(),
             "update" => println!("Updating julia toolchain"),
             _ => {
                 println!("Invalid argument...");
