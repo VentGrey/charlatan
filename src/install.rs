@@ -4,6 +4,9 @@ use std::process::Command;
 // External Crates
 use colored::*;
 
+// Own crates
+use scanrs::*;
+
 fn compatible() -> bool {
     let compat: bool = if cfg!(target_os = "windows") {
         eprintln!(
@@ -21,9 +24,9 @@ fn compatible() -> bool {
 
         if is_wget.code() != Some(0) {
             println!("Charlatan needs {} to be installed", "wget".yellow());
-            return false;
+            false;
         }
-
+        println!("[{}] Your system is compatible", "✔".green());
         true
     } else {
         eprintln!("Could not determine compatibility with your OS. Sorry");
@@ -33,6 +36,8 @@ fn compatible() -> bool {
     compat
 }
 
+fn download(ver: i32) {}
+
 pub fn install() {
     println!("Determining system compatibility...");
 
@@ -41,7 +46,26 @@ pub fn install() {
         exit(1);
     }
 
+    println!("Which version of julia do you wish to install?");
+    println!("1) {}", "stable".green());
+    println!("2) {}", "nightly".yellow());
+    println!("3) {}", "LTS".blue());
+    println!("You can either select a number or write the version :)");
 
+    let version = scanln();
 
-
+    match version.as_str() {
+        "1" | "stable" | "Stable" | "STABLE" => {
+            println!("[{}] Julia Stable selected...", "✔".green());
+        }
+        "2" | "nightly" | "Nightly" | "NIGHTLY" => {
+            println!("[{}] Julia Nightly selected...", "✔".green());
+        }
+        "3" | "lts" | "Lts" | "LTS" => {
+            println!("[{}] Julia LTS selected...", "✔".green());
+        }
+        _ => {
+            eprintln!("Invalid option: {}", version.red());
+        }
+    };
 }
