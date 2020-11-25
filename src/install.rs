@@ -36,7 +36,23 @@ fn compatible() -> bool {
     compat
 }
 
-fn download(ver: i32) {}
+fn download(ver: i32) {
+    match ver {
+        1 => {
+
+        },
+        2 => {
+
+        },
+        3 => {
+
+        }
+        _ => {
+            eprintln!("Unknown option {}", ver);
+            exit(100);
+        }
+    }
+}
 
 pub fn install() {
     println!("Determining system compatibility...");
@@ -57,12 +73,15 @@ pub fn install() {
     match version.as_str() {
         "1" | "stable" | "Stable" | "STABLE" => {
             println!("[{}] Julia Stable selected...", "✔".green());
+            download(1)
         }
         "2" | "nightly" | "Nightly" | "NIGHTLY" => {
             println!("[{}] Julia Nightly selected...", "✔".green());
+            download(2)
         }
         "3" | "lts" | "Lts" | "LTS" => {
             println!("[{}] Julia LTS selected...", "✔".green());
+            download(3)
         }
         _ => {
             eprintln!("Invalid option: {}", version.red());
