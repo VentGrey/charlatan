@@ -16,16 +16,28 @@ fn compatible() -> bool {
         false
     } else if cfg!(target_os = "linux") {
         println!("{}", "Checking for wget...".blue());
-        // Check if wget is installed on your system
+        // Check if wget is installed on this system
         let is_wget = Command::new("which")
             .arg("wget")
             .status()
             .expect("Could not run which");
 
-        if is_wget.code() != Some(0) {
-            println!("Charlatan needs {} to be installed", "wget".yellow());
-            false;
+        println!("{}", "Checking for tar...".blue());
+        // Check if tar is installed on this system
+        let is_tar = Command::new("which")
+            .arg("tar")
+            .status()
+            .expect("Could not run which");
+
+        if (is_wget.code() != Some(0)) && (is_tar.code() != Some(0)) {
+            println!(
+                "Charlatan needs {} and {} to be installed",
+                "wget".yellow(),
+                "tar".yellow()
+            );
+            return false;
         }
+
         println!("[{}] Your system is compatible", "✔".green());
         true
     } else {
@@ -39,13 +51,19 @@ fn compatible() -> bool {
 fn download(ver: i32) {
     match ver {
         1 => {
-
-        },
+            println!(
+                "Downloading latest Julia Stable tarball to {}",
+                "/tmp".blue()
+            );
+        }
         2 => {
-
-        },
+            println!(
+                "Downloading latest Julia Nightly tarball to {}",
+                "/tmp".blue()
+            );
+        }
         3 => {
-
+            println!("Downloading latest Julia LTS tarball to {}", "/tmp".blue());
         }
         _ => {
             eprintln!("Unknown option {}", ver);
@@ -54,7 +72,7 @@ fn download(ver: i32) {
     }
 }
 
-pub fn install() {
+pub fn init() {
     println!("Determining system compatibility...");
 
     if !compatible() {
@@ -63,8 +81,8 @@ pub fn install() {
     }
 
     println!("Which version of julia do you wish to install?");
-    println!("1) {}", "stable".green());
-    println!("2) {}", "nightly".yellow());
+    println!("1) {}", "Stable".green());
+    println!("2) {}", "Nightly".yellow());
     println!("3) {}", "LTS".blue());
     println!("You can either select a number or write the version :)");
 
