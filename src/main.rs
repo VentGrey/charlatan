@@ -33,8 +33,8 @@ fn main() {
 }
 
 fn help() {
-    const VERSION: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
-    const AUTHORS: Option<&'static str> = option_env!("CARGO_PKG_AUTHORS");
+    const VER: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
+    const AUT: Option<&'static str> = option_env!("CARGO_PKG_AUTHORS");
 
     println!(
         "Charlatan ({})
@@ -55,7 +55,7 @@ For more information about the development of this program please see
 the README file included in:
 https://github.com/VentGrey/charlatan/blob/master/README.md
 ",
-        VERSION.unwrap_or("unknown"),
-        AUTHORS.unwrap_or("none"),
+        VER.unwrap_or("unknown"),
+        AUT.unwrap_or("none"),
     );
 }

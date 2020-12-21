@@ -107,7 +107,7 @@ pub fn init() {
     println!("3) {}", "LTS".blue());
     println!("You can either select a number or write the version :)");
 
-    let version = scanln();
+    let version: String = scanln();
 
     match version.as_str() {
         "1" | "stable" | "Stable" | "STABLE" => {
