@@ -5,7 +5,8 @@ use std::process::exit;
 mod install;
 
 // External crates
-use colored::*;
+use yansi::Paint;
+
 
 /** Main crate function.
 The following function can handle arguments in a small order */
@@ -13,10 +14,10 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() > 2 {
-        println!("{}", "Excess of arguments!".red());
+        println!("{}", Paint::red("Excess of arguments!"));
         exit(1);
     } else if args.len() == 1 {
-        println!("{}", "Empty arguments list!".red());
+        println!("{}", Paint::red("Empty arguments list!"));
         exit(1);
     } else {
         let option = &args[1];
@@ -33,8 +34,8 @@ fn main() {
 }
 
 fn help() {
-    const VER: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
-    const AUT: Option<&'static str> = option_env!("CARGO_PKG_AUTHORS");
+    let ver: Option<&'static str> = option_env!("CARGO_PKG_VERSION");
+    let aut: Option<&'static str> = option_env!("CARGO_PKG_AUTHORS");
 
     println!(
         "Charlatan ({})
@@ -55,7 +56,7 @@ For more information about the development of this program please see
 the README file included in:
 https://github.com/VentGrey/charlatan/blob/master/README.md
 ",
-        VER.unwrap_or("unknown"),
-        AUT.unwrap_or("none"),
+        ver.unwrap_or("unknown"),
+        aut.unwrap_or("none"),
     );
 }
