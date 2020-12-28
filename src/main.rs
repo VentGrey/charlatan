@@ -7,7 +7,6 @@ mod install;
 // External crates
 use yansi::Paint;
 
-
 /** Main crate function.
 The following function can handle arguments in a small order */
 fn main() {

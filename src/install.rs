@@ -77,7 +77,10 @@ fn download(ver: i32) {
                 .expect("could not run wget!");
         }
         3 => {
-            println!("Downloading latest Julia LTS tarball to {}", Paint::blue("/tmp"));
+            println!(
+                "Downloading latest Julia LTS tarball to {}",
+                Paint::blue("/tmp")
+            );
 
             Command::new("wget")
                 .arg("https://julialang-s3.julialang.org/bin/linux/x64/1.0/julia-1.0.5-linux-x86_64.tar.gz")
@@ -97,7 +100,10 @@ pub fn init() {
     println!("Determining system compatibility...");
 
     if !compatible() {
-        println!("Your system is {} compatible with charlatan", Paint::red("NOT"));
+        println!(
+            "Your system is {} compatible with charlatan",
+            Paint::red("NOT")
+        );
         exit(1);
     }
 
