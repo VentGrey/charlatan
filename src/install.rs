@@ -1,5 +1,4 @@
-use std::process::exit;
-use std::process::Command;
+use std::process::{Command, exit, Stdio};
 
 // External Crates
 use yansi::*;
@@ -9,16 +8,15 @@ use scanrs::*;
 
 fn compatible() -> bool {
     let compat: bool = if cfg!(target_os = "windows") {
-        eprintln!(
-            "{}",
-            "Sorry Windows isn't compatible, it has an installer already"
-        );
+        eprintln!("{}", "Sorry Windows isn't compatible");
         false
     } else if cfg!(target_os = "linux") {
         println!("{}", Paint::blue("Checking for wget..."));
         // Check if wget is installed on this system
         let is_wget = Command::new("which")
             .arg("wget")
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
             .status()
             .expect("Could not run which");
 
@@ -26,6 +24,8 @@ fn compatible() -> bool {
         // Check if tar is installed on this system
         let is_tar = Command::new("which")
             .arg("tar")
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
             .status()
             .expect("Could not run which");
 
