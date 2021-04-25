@@ -30,34 +30,6 @@ jobs:
       run: cargo build
     - name: Run tests
       run: cargo test
-  fedorarpmbuild:
-    needs: [build]
-    runs-on: ubuntu-latest
-    name: FedoraRpm
-    steps:
-    - uses: actions/checkout@v2
-    - name: BuildRpm
-      id: buildrpm
-      uses: ebbflow-io/cargo-rpm-amd64-fedora@1.1
-    - name: Upload RPM Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: fedorarpm
-        path: ./target/x86_64-unknown-linux-musl/release/rpmbuild/RPMS/x86_64/*
-  opensuseleaprpmbuild:
-    needs: [build]
-    runs-on: ubuntu-latest
-    name: OpensuseLeapRpm
-    steps:
-    - uses: actions/checkout@v2
-    - name: BuildRpm
-      id: buildrpm
-      uses: ebbflow-io/cargo-rpm-amd64-opensuseleap@1.0
-    - name: Upload RPM Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: opensuserpm
-        path: ./target/x86_64-unknown-linux-musl/release/rpmbuild/RPMS/x86_64/*
   debbuild:
     needs: [build]
     runs-on: ubuntu-latest
@@ -238,24 +210,6 @@ jobs:
           asset_path: ./armv7deb/charlatan_${{needs.quickcheck.outputs.version}}_armhf.deb
           asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}_armhf.deb'
           asset_content_type: application/vnd.debian.binary-package
-      - name: Upload amd64 rpm fedora Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./fedorarpm/charlatan-${{needs.quickcheck.outputs.version}}-1.x86_64.rpm
-          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}-1_amd64_fedora.rpm'
-          asset_content_type: application/octet-stream
-      - name: Upload amd64 rpm opensuse Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./opensuserpm/ebbflow-${{needs.quickcheck.outputs.version}}-1.x86_64.rpm
-          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}-1_amd64_opensuseleap.rpm'
-          asset_content_type: application/octet-stream
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1
         env:
