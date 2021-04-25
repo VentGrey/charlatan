@@ -9,3 +9,21 @@ license = "GPL-2.0"
 [dependencies]
 scanrs = "0.2.1"
 yansi = "0.5.0"
+
+# cargo-deb configurations. These are used to create debian packages.
+[package.metadata.deb]
+name = "charlatan"
+maintainer = "VentGrey"
+copyright = "2020, Omar Jair Purata Funes <ventgrey@gmail.com>"
+license-file = ["LICENSE", "4"]
+depends = "$auto"
+conflicts = "julia" # Don't install julia from the debian repository
+extended-description = """\
+A simple rust program to install the latest version of the julia \
+programming language into the user home directory."""
+section = "utility"
+priority = "optional"
+assets = [
+    ["target/release/charlatan", "usr/bin/", "755"],
+    ["README.md", "usr/share/doc/charlatan/README", "644"],
+]
