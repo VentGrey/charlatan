@@ -116,7 +116,7 @@ jobs:
     - name: Build
       run: cargo build --release
     - name: Zip up macos binaries
-      run: 'zip -j ebbflow_${{needs.quickcheck.outputs.version}}_macos.zip ./target/release/ebbflowd ./target/release/ebbflow'
+      run: 'zip -j charlatan_${{needs.quickcheck.outputs.version}}_macos.zip ./target/release/charlatan ./target/release/charlatan'
     - name: Upload Zipped Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -147,13 +147,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: amd64binaries
-        path: ./target/x86_64-unknown-linux-musl/release/ebbflowd
+        path: ./target/x86_64-unknown-linux-musl/release/charlatan
     - name: Upload Ebbflow Artifact
       uses: actions/upload-artifact@v2
       with:
         name: amd64binaries
-        path: ./target/x86_64-unknown-linux-musl/release/ebbflow
-    - run: 'zip -j amd64binaries.zip ./target/x86_64-unknown-linux-musl/release/ebbflow ./target/x86_64-unknown-linux-musl/release/ebbflowd'
+        path: ./target/x86_64-unknown-linux-musl/release/charlatan
+    - run: 'zip -j amd64binaries.zip ./target/x86_64-unknown-linux-musl/release/charlatan ./target/x86_64-unknown-linux-musl/release/charlatan'
     - name: Upload Zip Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -174,13 +174,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: armv7binaries
-        path: ./target/armv7-unknown-linux-musleabihf/release/ebbflowd
+        path: ./target/armv7-unknown-linux-musleabihf/release/charlatan
     - name: Upload Ebbflow Artifact
       uses: actions/upload-artifact@v2
       with:
         name: armv7binaries
-        path: ./target/armv7-unknown-linux-musleabihf/release/ebbflow
-    - run: 'zip -j armv7binaries.zip ./target/armv7-unknown-linux-musleabihf/release/ebbflow ./target/armv7-unknown-linux-musleabihf/release/ebbflowd'
+        path: ./target/armv7-unknown-linux-musleabihf/release/charlatan
+    - run: 'zip -j armv7binaries.zip ./target/armv7-unknown-linux-musleabihf/release/charlatan ./target/armv7-unknown-linux-musleabihf/release/charlatan'
     - name: Upload Zip Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -192,8 +192,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
-      - run: cp ./amd64binaries/ebbflow ./docker/
-      - run: chmod +x ./docker/ebbflow
+      - run: cp ./amd64binaries/charlatan ./docker/
+      - run: chmod +x ./docker/charlatan
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
         with:
@@ -226,7 +226,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./amd64deb/ebbflow_${{needs.quickcheck.outputs.version}}_amd64.deb
+          asset_path: ./amd64deb/charlatan_${{needs.quickcheck.outputs.version}}_amd64.deb
           asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}_amd64.deb'
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload armv7 deb Release Asset
@@ -235,8 +235,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./armv7deb/ebbflow_${{needs.quickcheck.outputs.version}}_armhf.deb
-          asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}_armhf.deb'
+          asset_path: ./armv7deb/charlatan_${{needs.quickcheck.outputs.version}}_armhf.deb
+          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}_armhf.deb'
           asset_content_type: application/vnd.debian.binary-package
       - name: Upload amd64 rpm fedora Release Asset
         uses: actions/upload-release-asset@v1
@@ -244,8 +244,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./fedorarpm/ebbflow-${{needs.quickcheck.outputs.version}}-1.x86_64.rpm
-          asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}-1_amd64_fedora.rpm'
+          asset_path: ./fedorarpm/charlatan-${{needs.quickcheck.outputs.version}}-1.x86_64.rpm
+          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}-1_amd64_fedora.rpm'
           asset_content_type: application/octet-stream
       - name: Upload amd64 rpm opensuse Release Asset
         uses: actions/upload-release-asset@v1
@@ -254,7 +254,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./opensuserpm/ebbflow-${{needs.quickcheck.outputs.version}}-1.x86_64.rpm
-          asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}-1_amd64_opensuseleap.rpm'
+          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}-1_amd64_opensuseleap.rpm'
           asset_content_type: application/octet-stream
       - name: Upload Windows Release Asset
         uses: actions/upload-release-asset@v1
@@ -262,8 +262,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows/ebbflow-${{needs.quickcheck.outputs.version}}-x86_64.msi
-          asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}.msi'
+          asset_path: ./windows/charlatan-${{needs.quickcheck.outputs.version}}-x86_64.msi
+          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}.msi'
           asset_content_type: application/octet-stream
       - name: Upload Macos Release Asset
         uses: actions/upload-release-asset@v1
@@ -272,7 +272,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./macos/ebbflow_${{needs.quickcheck.outputs.version}}_macos.zip
-          asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}_macos.zip'
+          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}_macos.zip'
           asset_content_type: application/zip
       - name: Upload Armv7 Static Binary Zip Release Asset
         uses: actions/upload-release-asset@v1
@@ -290,5 +290,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./amd64binaries/amd64binaries.zip
-          asset_name: 'ebbflow_${{needs.quickcheck.outputs.version}}_linux_amd64_binaries.zip'
+          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}_linux_amd64_binaries.zip'
           asset_content_type: application/zip
