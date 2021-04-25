@@ -58,27 +58,6 @@ jobs:
       with:
         name: armv7deb
         path: ./target/armv7-unknown-linux-musleabihf/debian/*
-  windowsbuild:
-    needs: [build]
-    runs-on: windows-latest
-    env:
-      RUSTFLAGS: '-C target-feature=+crt-static'
-    name: Windows
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-    - uses: actions-rs/install@v0.1
-      with:
-        crate: cargo-wix
-        version: latest
-    - run: cargo wix -v --nocapture -o .
-    - name: Upload MSI Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: windows
-        path: ./*.msi
   macosbuild:
     needs: [build, quickcheck]
     runs-on: macos-latest
@@ -158,24 +137,8 @@ jobs:
       with:
         name: armv7binaries
         path: armv7binaries.zip
-  linuxamd64dockerbuild:
-    needs: [amd64binaries]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-      - run: cp ./amd64binaries/charlatan ./docker/
-      - run: chmod +x ./docker/charlatan
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ebbflow/ebbflow-client-linux-amd64
-          tags: latest
-          path: ./docker/
   update_release_draft:
-    needs: [quickcheck, arm7binaries, linuxamd64dockerbuild, amd64binaries, macosbuild, windowsbuild, raspbianbuild, debbuild]
+    needs: [quickcheck, arm7binaries, amd64binaries, macosbuild, raspbianbuild, debbuild]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -187,7 +150,7 @@ jobs:
         with:
           tag_name: '${{ needs.quickcheck.outputs.version }}'
           release_name: Release ${{ needs.quickcheck.outputs.version }}
-          body: 'Change Me'
+          body: 'Automated release for Charlatan via GitHub Actions'
           draft: true
           prerelease: false
       - uses: actions/download-artifact@v2
@@ -210,15 +173,6 @@ jobs:
           asset_path: ./armv7deb/charlatan_${{needs.quickcheck.outputs.version}}_armhf.deb
           asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}_armhf.deb'
           asset_content_type: application/vnd.debian.binary-package
-      - name: Upload Windows Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows/charlatan-${{needs.quickcheck.outputs.version}}-x86_64.msi
-          asset_name: 'charlatan_${{needs.quickcheck.outputs.version}}.msi'
-          asset_content_type: application/octet-stream
       - name: Upload Macos Release Asset
         uses: actions/upload-release-asset@v1
         env:
