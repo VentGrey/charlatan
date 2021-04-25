@@ -175,7 +175,7 @@ jobs:
           tags: latest
           path: ./docker/
   update_release_draft:
-    needs: [quickcheck, arm7binaries, linuxamd64dockerbuild, amd64binaries, macosbuild, windowsbuild, raspbianbuild, debbuild, opensuseleaprpmbuild, fedorarpmbuild]
+    needs: [quickcheck, arm7binaries, linuxamd64dockerbuild, amd64binaries, macosbuild, windowsbuild, raspbianbuild, debbuild]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
